@@ -427,6 +427,7 @@ function useInitialValues(
       ingressClasses:
         getIngressClassesFormValues(allowNoneIngressClass, ingressClasses) ||
         [],
+      changeWindow: environment.ChangeWindow,
     };
   }, [environment, ingressClasses, storageClassFormValues]);
 }
