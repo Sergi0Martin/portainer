@@ -1,4 +1,4 @@
-import { ConfigViewModel } from '../models/config';
+import { ConfigViewModel } from '@/react/docker/configs/model';
 
 angular.module('portainer.docker').factory('ConfigService', [
   '$q',
