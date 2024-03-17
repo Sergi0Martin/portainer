@@ -1,4 +1,3 @@
-import { EventViewModel } from '../models/event';
 import { ping } from './ping';
 
 angular.module('portainer.docker').factory('SystemService', [
@@ -31,23 +30,6 @@ angular.module('portainer.docker').factory('SystemService', [
 
     service.version = function () {
       return System.version({}).$promise;
-    };
-
-    service.events = function (from, to) {
-      var deferred = $q.defer();
-
-      System.events({ since: from, until: to })
-        .$promise.then(function success(data) {
-          var events = data.map(function (item) {
-            return new EventViewModel(item);
-          });
-          deferred.resolve(events);
-        })
-        .catch(function error(err) {
-          deferred.reject({ msg: 'Unable to retrieve engine events', err: err });
-        });
-
-      return deferred.promise;
     };
 
     service.dataUsage = function () {

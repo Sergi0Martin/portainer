@@ -14,17 +14,7 @@ function isJSON(jsonString) {
   return false;
 }
 
-// The Docker API often returns a list of JSON object.
-// This handler wrap the JSON objects in an array.
-// Used by the API in: Image push, Image create, Events query.
-export function jsonObjectsToArrayHandler(data) {
-  // catching empty data helps the function not to fail and prevents unwanted error message to user.
-  if (!data) {
-    return [];
-  }
-  var str = '[' + data.replace(/\n/g, ' ').replace(/\}\s*\{/g, '}, {') + ']';
-  return angular.fromJson(str);
-}
+export { jsonObjectsToArrayHandler } from '@/react/docker/proxy/queries/utils';
 
 // The Docker API often returns an empty string or a valid JSON object on success (Docker 1.9 -> Docker 1.12).
 // On error, it returns either an error message as a string (Docker < 1.12) or a JSON object with the field message

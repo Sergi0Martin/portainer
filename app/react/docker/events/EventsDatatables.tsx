@@ -7,26 +7,22 @@ import { Datatable } from '@@/datatables';
 import { createPersistedStore } from '@@/datatables/types';
 import { useTableState } from '@@/datatables/useTableState';
 
-type DockerEvent = {
-  Time: number;
-  Type: string;
-  Details: string;
-};
+import { EventViewModel } from './model';
 
-const columnHelper = createColumnHelper<DockerEvent>();
+const columnHelper = createColumnHelper<EventViewModel>();
 
 export const columns = [
-  columnHelper.accessor('Time', {
+  columnHelper.accessor('time', {
     header: 'Date',
     cell: ({ getValue }) => {
       const value = getValue();
       return isoDateFromTimestamp(value);
     },
   }),
-  columnHelper.accessor('Type', {
+  columnHelper.accessor('type', {
     header: 'Type',
   }),
-  columnHelper.accessor('Details', {
+  columnHelper.accessor('details', {
     header: 'Details',
   }),
 ];
@@ -37,12 +33,17 @@ const settingsStore = createPersistedStore(tableKey, {
   desc: true,
 });
 
-export function EventsDatatable({ dataset }: { dataset: Array<DockerEvent> }) {
+export function EventsDatatable({
+  dataset,
+}: {
+  dataset?: Array<EventViewModel>;
+}) {
   const tableState = useTableState(settingsStore, tableKey);
 
   return (
     <Datatable
       dataset={dataset ?? []}
+      isLoading={!dataset}
       columns={columns}
       settingsManager={tableState}
       title="Events"

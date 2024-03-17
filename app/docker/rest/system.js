@@ -1,5 +1,3 @@
-import { jsonObjectsToArrayHandler } from './response/handlers';
-
 angular.module('portainer.docker').factory('System', [
   '$resource',
   'API_ENDPOINT_ENDPOINTS',
@@ -18,12 +16,7 @@ angular.module('portainer.docker').factory('System', [
           params: { action: 'info' },
         },
         version: { method: 'GET', params: { action: 'version' } },
-        events: {
-          method: 'GET',
-          params: { action: 'events', since: '@since', until: '@until' },
-          isArray: true,
-          transformResponse: jsonObjectsToArrayHandler,
-        },
+
         auth: { method: 'POST', params: { action: 'auth' } },
         dataUsage: { method: 'GET', params: { action: 'system', subAction: 'df' } },
       }
