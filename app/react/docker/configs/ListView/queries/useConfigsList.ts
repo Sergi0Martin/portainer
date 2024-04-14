@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Config } from 'docker-types/generated/1.41';
 
 import { EnvironmentId } from '@/react/portainer/environments/types';

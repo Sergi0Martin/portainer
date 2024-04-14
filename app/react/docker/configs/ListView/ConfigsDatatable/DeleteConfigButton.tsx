@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from 'react-query';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import { useEnvironmentId } from '@/react/hooks/useEnvironmentId';
 import { promiseSequence } from '@/portainer/helpers/promise-utils';
