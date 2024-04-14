@@ -64,3 +64,11 @@ export function useSystemLimits(environmentId: EnvironmentId) {
 
   return { maxCpu, maxMemory };
 }
+
+export function useIsSwarmManager(environmentId: EnvironmentId) {
+  const query = useInfo(environmentId, {
+    select: (info) => !!info.Swarm?.NodeID && info.Swarm.ControlAvailable,
+  });
+
+  return !!query.data;
+}
