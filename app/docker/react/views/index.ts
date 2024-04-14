@@ -7,10 +7,10 @@ import { withReactQuery } from '@/react-tools/withReactQuery';
 import { withUIRouter } from '@/react-tools/withUIRouter';
 
 import { containersModule } from './containers';
+import { imagesModule } from './images';
 
 export const viewsModule = angular
-  .module('portainer.docker.react.views', [containersModule])
-
+  .module('portainer.docker.react.views', [containersModule, imagesModule])
   .component(
     'networkDetailsView',
     r2a(withUIRouter(withReactQuery(withCurrentUser(NetworksItemView))), [])

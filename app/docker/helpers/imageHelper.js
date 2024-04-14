@@ -1,3 +1,4 @@
+import { getImagesNamesForDownload } from '@/react/docker/images/queries/useExportMutation';
 import { buildImageFullURIFromModel, imageContainsURL } from '@/react/docker/images/utils';
 
 angular.module('portainer.docker').factory('ImageHelper', ImageHelperFactory);
@@ -12,20 +13,6 @@ function ImageHelperFactory() {
 
   function isValidTag(tag) {
     return tag.match(/^(?![\.\-])([a-zA-Z0-9\_\.\-])+$/g);
-  }
-
-  /**
-   *
-   * @param {Array<{tags: Array<string>; id: string;}>} images
-   * @returns {{names: string[]}}}
-   */
-  function getImagesNamesForDownload(images) {
-    var names = images.map(function (image) {
-      return image.tags[0] !== '<none>:<none>' ? image.tags[0] : image.id;
-    });
-    return {
-      names,
-    };
   }
 
   /**
