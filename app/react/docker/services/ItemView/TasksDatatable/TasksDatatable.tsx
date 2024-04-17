@@ -30,7 +30,6 @@ export function TasksDatatable({
       settingsManager={tableState}
       columns={columns}
       dataset={dataset}
-      emptyContentLabel="No task available."
       extendTableOptions={withMeta({ table: 'tasks', serviceName })}
       data-cy="docker-service-tasks-datatable"
     />

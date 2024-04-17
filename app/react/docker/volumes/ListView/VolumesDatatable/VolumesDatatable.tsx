@@ -51,7 +51,6 @@ export function VolumesDatatable({
       dataset={dataset || []}
       isLoading={!dataset}
       settingsManager={tableState}
-      emptyContentLabel="No volume available."
       renderTableActions={(selectedItems) => (
         <TableActions selectedItems={selectedItems} onRemove={onRemove} />
       )}

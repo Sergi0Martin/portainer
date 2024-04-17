@@ -91,7 +91,6 @@ export function ContainersDatatable({
             </>
           )}
           dataset={containersQuery.data || []}
-          emptyContentLabel="No containers found"
         />
       </TableSettingsProvider>
     </RowProvider>

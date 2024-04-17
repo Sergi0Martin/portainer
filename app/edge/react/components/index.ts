@@ -89,7 +89,6 @@ const ngModule = angular
   .component(
     'edgeGroupAssociationTable',
     r2a(withReactQuery(EdgeGroupAssociationTable), [
-      'emptyContentLabel',
       'onClickRow',
       'query',
       'title',
