@@ -167,7 +167,7 @@ angular
       url: '/custom',
       views: {
         'content@': {
-          component: 'edgeCustomTemplatesView',
+          component: 'customTemplatesView',
         },
       },
       data: {
