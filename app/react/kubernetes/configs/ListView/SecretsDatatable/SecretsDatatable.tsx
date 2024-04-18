@@ -4,8 +4,11 @@ import { Secret } from 'kubernetes-types/core/v1';
 
 import { useEnvironmentId } from '@/react/hooks/useEnvironmentId';
 import { Authorized, useAuthorizations } from '@/react/hooks/useUser';
-import { DefaultDatatableSettings } from '@/react/kubernetes/datatables/DefaultDatatableSettings';
-import { createStore } from '@/react/kubernetes/datatables/default-kube-datatable-store';
+import {
+  DefaultDatatableSettings,
+  TableSettings as KubeTableSettings,
+} from '@/react/kubernetes/datatables/DefaultDatatableSettings';
+import { useKubeStore } from '@/react/kubernetes/datatables/default-kube-datatable-store';
 import { SystemResourceDescription } from '@/react/kubernetes/datatables/SystemResourceDescription';
 import { useApplicationsQuery } from '@/react/kubernetes/applications/application.queries';
 import { Application } from '@/react/kubernetes/applications/types';
@@ -16,8 +19,13 @@ import { CreateFromManifestButton } from '@/react/kubernetes/components/CreateFr
 
 import { Datatable, TableSettingsMenu } from '@@/datatables';
 import { AddButton } from '@@/buttons';
-import { useTableState } from '@@/datatables/useTableState';
 import { DeleteButton } from '@@/buttons/DeleteButton';
+import {
+  type FilteredColumnsTableSettings,
+  filteredColumnsSettings,
+} from '@@/datatables/types';
+import { mergeOptions } from '@@/datatables/extend-options/mergeOptions';
+import { withColumnFilters } from '@@/datatables/extend-options/withColumnFilters';
 
 import {
   useSecretsForCluster,
@@ -30,17 +38,26 @@ import { SecretRowData } from './types';
 import { columns } from './columns';
 
 const storageKey = 'k8sSecretsDatatable';
-const settingsStore = createStore(storageKey);
+
+interface TableSettings
+  extends KubeTableSettings,
+    FilteredColumnsTableSettings {}
 
 export function SecretsDatatable() {
-  const tableState = useTableState(settingsStore, storageKey);
+  const tableState = useKubeStore<TableSettings>(
+    storageKey,
+    undefined,
+    (set) => ({
+      ...filteredColumnsSettings(set),
+    })
+  );
+  const environmentId = useEnvironmentId();
   const { authorized: canWrite } = useAuthorizations(['K8sSecretsW']);
   const readOnly = !canWrite;
   const { authorized: canAccessSystemResources } = useAuthorizations(
     'K8sAccessSystemNamespaces'
   );
 
-  const environmentId = useEnvironmentId();
   const { data: namespaces, ...namespacesQuery } = useNamespacesQuery(
     environmentId,
     {
@@ -104,6 +121,9 @@ export function SecretsDatatable() {
         />
       }
       data-cy="k8s-secrets-datatable"
+      extendTableOptions={mergeOptions(
+        withColumnFilters(tableState.columnFilters, tableState.setColumnFilters)
+      )}
     />
   );
 }
